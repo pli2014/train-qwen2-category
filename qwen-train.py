@@ -91,7 +91,7 @@ if not os.path.exists("./qwen/Qwen2-1___5B-Instruct/"):
 
 # Transformers加载模型权重
 tokenizer = AutoTokenizer.from_pretrained("./qwen/Qwen2-1___5B-Instruct/", use_fast=False, trust_remote_code=True)
-model = AutoModelForCausalLM.from_pretrained("./qwen/Qwen2-1___5B-Instruct/", device_map="auto", torch_dtype=torch.float16)
+model = AutoModelForCausalLM.from_pretrained("./qwen/Qwen2-1___5B-Instruct/", device_map="auto", torch_dtype=torch.float32)
 model.enable_input_require_grads()  # 开启梯度检查点时，要执行该方法
 
 # 加载、处理数据集和测试集
