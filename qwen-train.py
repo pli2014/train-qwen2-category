@@ -62,14 +62,14 @@ def process_func(example):
 
 
 def predict(messages, model, tokenizer):
-    #device = "cuda"
+    device = "cuda"
     text = tokenizer.apply_chat_template(
         messages,
         tokenize=False,
         add_generation_prompt=True
     )
-    #model_inputs = tokenizer([text], return_tensors="pt").to(device)
-    model_inputs = tokenizer([text], return_tensors="pt")
+    model_inputs = tokenizer([text], return_tensors="pt").to(device)
+    #model_inputs = tokenizer([text], return_tensors="pt")
 
     generated_ids = model.generate(
         model_inputs.input_ids,
@@ -91,7 +91,7 @@ if not os.path.exists("./qwen/Qwen2-1___5B-Instruct/"):
 
 # Transformers加载模型权重
 tokenizer = AutoTokenizer.from_pretrained("./qwen/Qwen2-1___5B-Instruct/", use_fast=False, trust_remote_code=True)
-model = AutoModelForCausalLM.from_pretrained("./qwen/Qwen2-1___5B-Instruct/", device_map="auto", torch_dtype=torch.float32)
+model = AutoModelForCausalLM.from_pretrained("./qwen/Qwen2-1___5B-Instruct/", device_map="auto", torch_dtype=torch.bfloat16)
 model.enable_input_require_grads()  # 开启梯度检查点时，要执行该方法
 
 # 加载、处理数据集和测试集
