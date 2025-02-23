@@ -6,6 +6,11 @@
 pip install swanlab modelscope transformers datasets peft pandas accelerate
 本案例测试于modelscope1.14.0、transformers4.41.2、datasets2.18.0、peft0.11.1、accelerate0.30.1、swanlab0.3.9 
 
+重要依赖安装torch-gpu系列：
+torch-2.2.1+cu121-cp310-cp310-win_amd64.whl
+torchaudio-2.2.1+cu121-cp310-cp310-win_amd64.whl
+torchvision-0.17.1+cu121-cp310-cp310-win_amd64.whl
+
 
 2. 相关链接
 代码：完整代码直接看本文第5节
