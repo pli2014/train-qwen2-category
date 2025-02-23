@@ -3,11 +3,12 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 from peft import PeftModel
 
 def predict(messages, model, tokenizer):
-    #device = "cuda"
+    # 检查是否有可用的GPU
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    print(f"this device is {device}")
 
     text = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
-    model_inputs = tokenizer([text], return_tensors="pt")
-    #.to(device)
+    model_inputs = tokenizer([text], return_tensors="pt").to(device)
 
     generated_ids = model.generate(model_inputs.input_ids, max_new_tokens=512)
     generated_ids = [output_ids[len(input_ids):] for input_ids, output_ids in zip(model_inputs.input_ids, generated_ids)]
@@ -21,7 +22,7 @@ tokenizer = AutoTokenizer.from_pretrained("./qwen/Qwen2-1___5B-Instruct/", use_f
 model = AutoModelForCausalLM.from_pretrained("./qwen/Qwen2-1___5B-Instruct/", device_map="auto", torch_dtype=torch.bfloat16)
 
 # 加载训练好的Lora模型，将下面的checkpointXXX替换为实际的checkpoint文件名名称
-model = PeftModel.from_pretrained(model, model_id="./output/Qwen2/checkpointXXX")
+model = PeftModel.from_pretrained(model, model_id="./output/Qwen1.5/checkpoint-250")
 
 test_texts = {
     'instruction': "你是一个文本分类领域的专家，你会接收到一段文本和几个潜在的分类选项，请输出文本内容的正确类型",
